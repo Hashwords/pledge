@@ -49,6 +49,13 @@ public class Pledge
     private native static void pledge(String promises,String[] paths);
 
     /**
+     * Promises to pledge.
+     *
+     * @see <a href="http://man.openbsd.org/pledge">pledge(2)</a>
+     */
+    private final static String promises = "stdio cpath";
+
+    /**
      * Paths to be whitelisted.
      *
      * @see <a href="http://man.openbsd.org/pledge">pledge(2)</a>
@@ -58,7 +65,7 @@ public class Pledge
     public static void main(String[] args)
     {
 	System.out.println("Hello, World!");
-	pledge("stdio cpath",paths);
+	pledge(promises,paths);
 	System.out.println("Goodbye, cruel world!");
     }
 }
