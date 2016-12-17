@@ -24,7 +24,25 @@ public class Pledge
     // Load libPledge.so when the class loads.
     static
     {
-	System.loadLibrary("Pledge");
+	try
+	{
+	    System.loadLibrary("Pledge");
+	}
+	catch(SecurityException e)
+	{
+	    System.err.println(e);
+	    System.exit(-1);
+	}
+	catch(UnsatisfiedLinkError e)
+	{
+	    System.err.println(e);
+	    System.exit(-1);
+	}
+	catch(NullPointerException e)
+	{
+	    System.err.println("Inconceivable : " + e);
+	    System.exit(-1);
+	}
     }
 
     /**
