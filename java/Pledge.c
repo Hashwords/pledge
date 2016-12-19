@@ -14,13 +14,6 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*
-  javah Pledge
-
-  gcc -shared -fPIC -I $JAVA_HOME/include/ -I $JAVA_HOME/include/openbsd/ \
-  Pledge.c -o libPledge.so
- */
-
 #include <err.h>
 #include "Pledge.h"
 #include <stdlib.h>
