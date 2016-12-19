@@ -1,13 +1,24 @@
 NAME
-    Pledge - example of a Java Native Interface to OpenBSD pledge(2)
+    Pledge - Java Native Interface to OpenBSD pledge(2)
 
 SYNOPSIS
-      static{System.loadLibrary("Pledge");}
+      import org.hashwords.pledge.Pledge;
 
-      pledge(String promises,String[] paths);
+      if(Pledge.addPromise("unix rpath"))
+        Pledge.pledge();
+
+      if(Pledge.removePromise("rpath"))
+        Pledge.pledge();
 
 DESCRIPTION
-    This example provides a Java Native Interface to OpenBSD's pledge(2).
+    This library provides a Java Native Interface to OpenBSD's pledge(2).
+    Promises are added by calling the static method Pledge.addPromise(String)
+    followed by calling the static method Pledge.pledge(), promises are removed
+    by calling the static method Pledge.removePromise(String) followed by
+    calling the static method Pledge.pledge(); the current set of promises that
+    will be passed to pledge(2) can be retrieved as a String[] by calling the
+    static method Pledge.currentPromises(). The complete set of valid promises
+    can be found in the public final static String[] PROMISE_NAMES.
 
 BUGS AND LIMITATIONS
     Java appears to require both "stdio" and "cpath" promises for normal use.
