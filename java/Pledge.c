@@ -14,16 +14,16 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <err.h>
+#include <errno.h>
 #include "org_hashwords_pledge_Pledge.h"
 #include <stdlib.h>
 #include <unistd.h>
 
-const char *pledge_chars = "pledge";
-
-JNIEXPORT void JNICALL Java_org_hashwords_pledge_Pledge_pledge
+JNIEXPORT jint JNICALL Java_org_hashwords_pledge_Pledge_pledge
 (JNIEnv *env,jobject obj,jstring promises,jobjectArray paths)
 {
+  jint exit_status = 0;
+
   const char *nativeString = (*env)->GetStringUTFChars(env,promises,0);
 
   jint arraySize = paths == NULL ? 0 : (*env)->GetArrayLength(env,paths);
@@ -39,7 +39,7 @@ JNIEXPORT void JNICALL Java_org_hashwords_pledge_Pledge_pledge
     }
 
     if(-1 == pledge(nativeString,strings))
-      err(EXIT_FAILURE,pledge_chars);
+      exit_status = errno;
 
     for(i = 0;i<arraySize;i++)
     {
@@ -50,10 +50,10 @@ JNIEXPORT void JNICALL Java_org_hashwords_pledge_Pledge_pledge
   else
   {
     if(-1 == pledge(nativeString,NULL))
-      err(EXIT_FAILURE,pledge_chars);
+      exit_status = errno;
   }
   
   (*env)->ReleaseStringUTFChars(env,promises,nativeString);
 
-  return;
+  return exit_status;
 }

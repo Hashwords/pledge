@@ -52,11 +52,15 @@ public class Pledge
 
     /**
      * Restrict the current process.
+     *
      * @param promises
+     * @param paths
+     *
+     * @return exit_status
      *
      * @see <a href="http://man.openbsd.org/pledge">pledge(2)</a>
      */
-    private native static void pledge(String promises,String[] paths);
+    private native static int pledge(String promises,String[] paths);
 
     /**
      * List of available promises.
@@ -105,7 +109,20 @@ public class Pledge
     public final static void pledge()
     {
 	String promises = generatePromises();
-	pledge(promises , PATHS);
+	int status = pledge(promises , PATHS);
+
+	if(status == 22) // EINVAL
+	    throw new IllegalArgumentException("[EINVAL] Invalid argument");
+	else if(status == 7) // E2BIG
+	    throw new IllegalArgumentException("[E2BIG] Argument list too long");
+	else if(status == 63) // ENAMETOOLONG
+	    throw new IllegalArgumentException("[ENAMETOOLONG] File name too long");
+	else if(status == 14) // EFAULT
+	    throw new RuntimeException("[EFAULT] Bad address");
+	else if(status == 1) // EPERM
+	    throw new SecurityException("[EPERM] Operation not permitted");
+	else if(status != 0) // ?!
+	    throw new RuntimeException();
     }
 
     /**
