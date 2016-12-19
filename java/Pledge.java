@@ -14,8 +14,11 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+import java.util.List;
+import java.util.Vector;
+
 /**
- * Example of pledge(2) in Java.
+ * Java Native Interface to OpenBSD pledge(2)
  *
  * @see <a href="http://man.openbsd.org/pledge">pledge(2)</a>
  */
@@ -48,30 +51,179 @@ public class Pledge
     /**
      * Restrict the current process.
      * @param promises
-     * @param paths
      *
      * @see <a href="http://man.openbsd.org/pledge">pledge(2)</a>
      */
     private native static void pledge(String promises,String[] paths);
 
     /**
-     * Promises to pledge.
+     * List of available promises.
+     *
+     * @see /usr/src/sys/sys/pledge.h
+     */
+    public final static String[] PROMISE_NAMES =
+    {
+	"rpath" , "wpath" , "cpath" , "stdio" ,
+	"tmppath" , "dns" , "inet" , "flock" ,
+	"unix" , "id" , "ioctl" , "getpw" ,
+	"proc" , "settime" , "fattr" , "prot_exec" ,
+	"tty" , "sendfd" , "recvfd" , "exec" ,
+	"route" , "mcast" , "vminfo" , "ps" ,
+	"disklabel" , "pf" , "audio" , "dpath" ,
+	"drm" , "vmm" , "chown"
+    };
+
+    /**
+     * Additional promises to pledge.
      *
      * @see <a href="http://man.openbsd.org/pledge">pledge(2)</a>
      */
-    private final static String promises = "stdio cpath";
+    private final static List<String> PROMISES = new Vector<String>();
+
+    /**
+     * Promises that are required by Java.
+     *
+     * To be automatically included in each pledge call.
+     * @see #pledge(String,String[])
+     */
+    private final static String[] PERMANENT_PROMISES = {"stdio" , "cpath"};
 
     /**
      * Paths to be whitelisted.
      *
      * @see <a href="http://man.openbsd.org/pledge">pledge(2)</a>
      */
-    private final static String[] paths = {};
+    private final static String[] PATHS = {};
 
-    public static void main(String[] args)
+    /**
+     * Restrict the current process.
+     *
+     * @see <a href="http://man.openbsd.org/pledge">pledge(2)</a>
+     */
+    public final static void pledge()
     {
-	System.out.println("Hello, World!");
-	pledge(promises,paths);
-	System.out.println("Goodbye, cruel world!");
+	String promises = generatePromises();
+	pledge(promises , PATHS);
+    }
+
+    /**
+     * Generate a list of promises based on promises requested and
+     * permanent promises.
+     */
+    private final static String generatePromises()
+    {
+	String promises = "";
+
+	for(String promise : PERMANENT_PROMISES)
+	    promises = promises.concat(promise + " ");
+	for(String promise : PROMISES)
+	    promises = promises.concat(promise + " ");
+	promises = promises.trim();
+
+	return promises;
+    }
+
+    /**
+     * Add promises to the set of promises.
+     *
+     * @param promises promises to be added.
+     * @return boolean indicating wether or not all the promises were added.
+     */
+    public final static boolean addPromise(String... promises)
+    {
+	boolean added = false ;
+
+	if(promises != null)
+	{
+	    for(String promise : promises)
+	    {
+		if(promise != null)
+		{
+		    promise = promise.toLowerCase().trim();
+
+		    String[] subpromises = promise.split("\\s");
+		    for(String subpromise : subpromises)
+		    {
+			if(arrayContains(subpromise , PROMISE_NAMES)
+			   && !arrayContains(subpromise , PERMANENT_PROMISES)
+			   && !PROMISES.contains(subpromise))
+			{
+			    PROMISES.add(subpromise);
+			    added &= true;
+			}
+		    }
+		}
+	    }
+	}
+
+	return added;
+    }
+
+    /**
+     * Search for an Object in a given array.
+     *
+     * @param candidate object to find.
+     * @param list array to find the candidate in.
+     *
+     * @return boolean indicating wether or not the candidate was found
+     * in the list.
+     */
+    private final static boolean arrayContains(Object candidate ,
+					       Object[] list)
+    {
+	boolean contains = false;
+
+	if(candidate != null && list != null)
+	{
+	    for(Object value : list)
+	    {
+		if(value.equals(candidate))
+		{
+		    contains = true;
+		    break;
+		}
+	    }
+	}
+
+	return contains;
+    }
+
+    /**
+     * Remove promises from set of promises.
+     *
+     * @param promises to be removed.
+     * @return boolean indicating wether or not all the promises were removed.
+     */
+    public final static boolean removePromise(String... promises)
+    {
+	boolean removed = false;
+
+	if(promises != null)
+	{
+	    for(String promise : promises)
+	    {
+		if(promise != null)
+		{
+		    promise = promise.toLowerCase().trim();
+
+		    String[] subpromises = promise.split("\\s");
+		    for(String subpromise : subpromises)
+			removed &= PROMISES.remove(subpromise);
+		}
+	    }
+	}
+
+	return removed;
+    }
+
+    /**
+     * Return the current promises.
+     * These are not necessarily pledged promises.
+     *
+     * @return array of promises.
+     */
+    public final static String[] currentPromises()
+    {
+	return generatePromises().split("\\s");
     }
 }
