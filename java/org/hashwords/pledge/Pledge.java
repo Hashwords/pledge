@@ -133,7 +133,7 @@ public class Pledge
      */
     public final static boolean addPromise(String... promises)
     {
-	boolean added = false ;
+	boolean added = true;
 
 	if(promises != null)
 	{
@@ -155,7 +155,15 @@ public class Pledge
 			}
 		    }
 		}
+		else
+		{
+		    added = false;
+		}
 	    }
+	}
+	else
+	{
+	    added = false;
 	}
 
 	return added;
@@ -198,7 +206,7 @@ public class Pledge
      */
     public final static boolean removePromise(String... promises)
     {
-	boolean removed = false;
+	boolean removed = true;
 
 	if(promises != null)
 	{
@@ -212,7 +220,15 @@ public class Pledge
 		    for(String subpromise : subpromises)
 			removed &= PROMISES.remove(subpromise);
 		}
+		else
+		{
+		    removed = false;
+		}
 	    }
+	}
+	else
+	{
+	    removed = false;
 	}
 
 	return removed;
