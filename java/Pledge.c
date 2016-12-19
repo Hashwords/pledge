@@ -15,13 +15,13 @@
  */
 
 #include <err.h>
-#include "Pledge.h"
+#include "org_hashwords_pledge_Pledge.h"
 #include <stdlib.h>
 #include <unistd.h>
 
 const char *pledge_chars = "pledge";
 
-JNIEXPORT void JNICALL Java_Pledge_pledge
+JNIEXPORT void JNICALL Java_org_hashwords_pledge_Pledge_pledge
 (JNIEnv *env,jobject obj,jstring promises,jobjectArray paths)
 {
   const char *nativeString = (*env)->GetStringUTFChars(env,promises,0);

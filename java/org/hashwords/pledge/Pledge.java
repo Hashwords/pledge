@@ -14,6 +14,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+package org.hashwords.pledge;
+
 import java.util.List;
 import java.util.Vector;
 
