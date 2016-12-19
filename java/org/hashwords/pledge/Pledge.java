@@ -244,4 +244,26 @@ public class Pledge
     {
 	return generatePromises().split("\\s");
     }
+
+    /**
+     * Add paths to be whitelisted to the set of whitelisted paths.
+     *
+     * @param paths to be whitelisted/
+     * @return boolean indicating wether or not all the paths were added.
+     */
+    public final static boolean addPath(String... paths)
+    {
+	return false;
+    }
+
+    /**
+     * Remove whitelisted paths from the set of whitelisted paths.
+     *
+     * @param paths to remove from whitelisted set.
+     * @return boolean indicating wether or not all the paths were removed.
+     */
+    public final static boolean removePath(String... paths)
+    {
+	return false;
+    }
 }
