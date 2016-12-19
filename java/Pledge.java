@@ -48,6 +48,7 @@ public class Pledge
     /**
      * Restrict the current process.
      * @param promises
+     * @param paths
      *
      * @see <a href="http://man.openbsd.org/pledge">pledge(2)</a>
      */
