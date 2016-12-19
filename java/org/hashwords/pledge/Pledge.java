@@ -65,7 +65,7 @@ public class Pledge
      */
     public final static String[] PROMISE_NAMES =
     {
-	"rpath" , "wpath" , "cpath" , "stdio" ,
+	"rpath" , "wpath" , /* "cpath" , "stdio" ,*/
 	"tmppath" , "dns" , "inet" , "flock" ,
 	"unix" , "id" , "ioctl" , "getpw" ,
 	"proc" , "settime" , "fattr" , "prot_exec" ,
