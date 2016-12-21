@@ -266,7 +266,7 @@ public class Pledge
      * Return the current promises.
      * These are not necessarily pledged promises.
      *
-     * @return array of promises.
+     * @return String[] of promises.
      */
     public final static String[] currentPromises()
     {
