@@ -271,7 +271,7 @@ public class Pledge
     /**
      * Add paths to be whitelisted to the set of whitelisted paths.
      *
-     * @param paths to be whitelisted/
+     * @param paths to be whitelisted
      * @return boolean indicating wether or not all the paths were added.
      */
     public final static boolean addPath(String... paths)
@@ -280,7 +280,7 @@ public class Pledge
     }
 
     /**
-     * Remove whitelisted paths from the set of whitelisted paths.
+     * Remove paths from the set of whitelisted paths.
      *
      * @param paths to remove from whitelisted set.
      * @return boolean indicating wether or not all the paths were removed.
