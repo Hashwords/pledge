@@ -51,6 +51,11 @@ public class Pledge
     }
 
     /**
+     * Restrict the constructor, all public methods and fields are static.
+     */
+    private Pledge(){}
+
+    /**
      * Restrict the current process.
      *
      * @param promises
