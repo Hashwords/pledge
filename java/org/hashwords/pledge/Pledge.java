@@ -70,7 +70,7 @@ public class Pledge
     /**
      * List of available promises.
      *
-     * @see /usr/src/sys/sys/pledge.h
+     * @see <a href="/usr/src/sys/sys/pledge.h">/usr/src/sys/sys/pledge.h</a>
      */
     public final static String[] PROMISE_NAMES =
     {
