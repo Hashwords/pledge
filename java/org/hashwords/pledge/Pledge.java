@@ -159,7 +159,7 @@ public class Pledge
     /**
      * Add promises to the set of promises.
      *
-     * @param promises promises to be added.
+     * @param promises to be added.
      * @return boolean indicating wether or not all the promises were added.
      */
     public final static boolean addPromise(String... promises)
