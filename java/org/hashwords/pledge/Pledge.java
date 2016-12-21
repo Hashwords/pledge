@@ -157,8 +157,8 @@ public class Pledge
 
 	for(String promise : processed)
 	{
-	    if(arrayContains(promise , PROMISE_NAMES)
-	       && !arrayContains(promise , PERMANENT_PROMISES)
+	    if(contains(promise , PROMISE_NAMES)
+	       && !contains(promise , PERMANENT_PROMISES)
 	       && !PROMISES.contains(promise))
 	    {
 		PROMISES.add(promise);
@@ -177,11 +177,9 @@ public class Pledge
      * @param candidate object to find.
      * @param list array to find the candidate in.
      *
-     * @return boolean indicating wether or not the candidate was found
-     * in the list.
+     * @return boolean indicating wether or not the candidate was found.
      */
-    private final static boolean arrayContains(Object candidate ,
-					       Object[] list)
+    private final static boolean contains(Object candidate , Object[] list)
     {
 	boolean contains = false;
 
