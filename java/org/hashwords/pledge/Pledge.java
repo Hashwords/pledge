@@ -150,38 +150,23 @@ public class Pledge
      */
     public final static boolean addPromise(String... promises)
     {
-	boolean added = true;
+	boolean added = false;
 
-	if(promises != null)
+	List<String> processed = processArgs(promises);
+	added = processed.size() > 0;
+
+	for(String promise : processed)
 	{
-	    for(String promise : promises)
+	    if(arrayContains(promise , PROMISE_NAMES)
+	       && !arrayContains(promise , PERMANENT_PROMISES)
+	       && !PROMISES.contains(promise))
 	    {
-		if(promise != null)
-		{
-		    promise = promise.toLowerCase().trim();
-
-		    String[] subpromises = promise.split("\\s");
-		    for(String subpromise : subpromises)
-		    {
-			if(arrayContains(subpromise , PROMISE_NAMES)
-			   && !arrayContains(subpromise , PERMANENT_PROMISES)
-			   && !PROMISES.contains(subpromise))
-			{
-			    PROMISES.add(subpromise);
-			    added &= true;
-			}
-		    }
-		}
-		else
-		{
-		    added = false;
-		}
+		PROMISES.add(promise);
+		added &= true;
 	    }
 	}
-	else
-	{
-	    added = false;
-	}
+
+	processed.clear();
 
 	return added;
     }
@@ -223,7 +208,29 @@ public class Pledge
      */
     public final static boolean removePromise(String... promises)
     {
-	boolean removed = true;
+	boolean removed = false;
+
+	List<String> processed = processArgs(promises);
+	removed = processed.size() > 0;
+
+	for(String promise : processed)
+	    removed &= PROMISES.remove(promise);
+
+	processed.clear();
+
+	return removed;
+    }
+
+    /**
+     * Process the String arguments for addPromise() and removePromise()
+     *
+     * @param promises to process
+     *
+     * @return List<String> of processed promises
+     */
+    public final static List<String> processArgs(String... promises)
+    {
+	List<String> args = new Vector<String>();
 
 	if(promises != null)
 	{
@@ -235,20 +242,12 @@ public class Pledge
 
 		    String[] subpromises = promise.split("\\s");
 		    for(String subpromise : subpromises)
-			removed &= PROMISES.remove(subpromise);
-		}
-		else
-		{
-		    removed = false;
+			args.add(subpromise);
 		}
 	    }
 	}
-	else
-	{
-	    removed = false;
-	}
 
-	return removed;
+	return args;
     }
 
     /**
