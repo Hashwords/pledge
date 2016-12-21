@@ -20,6 +20,15 @@ DESCRIPTION
     static method Pledge.currentPromises(). The complete set of valid promises
     can be found in the public final static String[] PROMISE_NAMES.
 
+INSTALLATION
+    With the JAVA_HOME environment variable set :
+
+    $ make
+    # make install
+
+    This will install native libraries in /usr/local and Java classes in
+    $JAVA_HOME/jre/lib/ext making them available to all users.
+
 BUGS AND LIMITATIONS
     Java appears to require both "stdio" and "cpath" promises for normal use.
 
