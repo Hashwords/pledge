@@ -104,6 +104,10 @@ public class Pledge
     /**
      * Restrict the current process.
      *
+     * @throws IllegalArgumentException [EINVAL] [E2BIG] [ENAMETOOLONG]
+     * @throws RuntimeException [EFAULT] non 0 exit status
+     * @throws SecurityException [EPERM]
+     *
      * @see <a href="http://man.openbsd.org/pledge">pledge(2)</a>
      */
     public final static void pledge()
@@ -112,15 +116,20 @@ public class Pledge
 	int status = pledge(promises , PATHS);
 
 	if(status == 22) // EINVAL
-	    throw new IllegalArgumentException("[EINVAL] Invalid argument");
+	    throw new IllegalArgumentException
+		("[EINVAL] Invalid argument");
 	else if(status == 7) // E2BIG
-	    throw new IllegalArgumentException("[E2BIG] Argument list too long");
+	    throw new IllegalArgumentException
+		("[E2BIG] Argument list too long");
 	else if(status == 63) // ENAMETOOLONG
-	    throw new IllegalArgumentException("[ENAMETOOLONG] File name too long");
+	    throw new IllegalArgumentException
+		("[ENAMETOOLONG] File name too long");
 	else if(status == 14) // EFAULT
-	    throw new RuntimeException("[EFAULT] Bad address");
+	    throw new RuntimeException
+		("[EFAULT] Bad address");
 	else if(status == 1) // EPERM
-	    throw new SecurityException("[EPERM] Operation not permitted");
+	    throw new SecurityException
+		("[EPERM] Operation not permitted");
 	else if(status != 0) // ?!
 	    throw new RuntimeException();
     }
