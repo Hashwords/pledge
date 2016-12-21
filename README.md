@@ -14,10 +14,13 @@ The latest source code can be obtained from the following public repositories :
 
 https://github.com/Hashwords/pledge
 
+https://bitbucket.org/hashwords/pledge
+
 
 ## What Operating Systems does Pledge support ?
 
-The pledge() system call first appeared in OpenBSD 5.9;
+The pledge() system call first appeared in OpenBSD 5.9
+
 Pledge has been developed on OpenBSD 6.0
 
 
