@@ -235,7 +235,7 @@ public class Pledge
      *
      * @return List<String> of processed promises
      */
-    public final static List<String> processArgs(String... promises)
+    private final static List<String> processArgs(String... promises)
     {
 	List<String> args = new Vector<String>();
 
